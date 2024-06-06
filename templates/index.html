@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boleta de calificaciones</title>
+    <title>Registro de Alumnos</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
-    <div class="card shadow" style="max-width: 800px;">
+    <div class="card shadow" style="max-width: 800px;    background-color: #e5d1f7; ">
         <div class="text-center mt-2">
             <h3>INGENIERÍA EN DESARROLLO Y GESTIÓN DE SOFTWARE</h3>
             <h4>ITZEL DOROTEO MARTINEZ</h4>
@@ -17,33 +17,32 @@
             <div class="col-md-4 text-center p-3">
                 <span>MATRICULA: 20211311</span><br>
                 <span>GRADO Y GRUPO: 9"A"</span>
-                <img src="{{ url_for('static', filename='images/wall.jpg') }}" alt="Universidad" class="img-fluid rounded">
+                <img src="{{ url_for('static', filename='images/amigues.jpg') }}" alt="Universidad" class="img-fluid rounded mt-4">
             </div>
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <div class="card-body">
-                    <form id="gradeForm">
-                        <h4 class="text-center">CALIFICACIONES</h4>
+                    <form id="studentForm">
+                        <h4 class="text-center">Registro</h4>
                         <div class="form-group">
-                            <label for="materia">Asignatura</label>
-                            <input type="text" class="form-control" id="materia" name="materia" value="Extracción en conocimiento de BD" readonly>
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre">
                         </div>
                         <div class="form-group">
-                            <label for="calificacion1">Calificación Parcial 1</label>
-                            <input type="number" class="form-control" id="calificacion1" name="calificacion1" min="0" max="10">
+                            <label for="grado_grupo">Grado y Grupo</label>
+                            <input type="text" class="form-control" id="grado_grupo" name="grado_grupo">
                         </div>
-                        <div class="form-group">
-                            <label for="calificacion2">Calificación Parcial 2</label>
-                            <input type="number" class="form-control" id="calificacion2" name="calificacion2" min="0" max="10">
-                        </div>
-                        <div class="form-group">
-                            <label for="calificacion3">Calificación Parcial 3</label>
-                            <input type="number" class="form-control" id="calificacion3" name="calificacion3" min="0" max="10">
-                        </div>
-                        <button type="button" class="btn btn-success btn-block mb-2" onclick="calcularPromedio()">Promedio</button>
-                        <button type="button" class="btn btn-secondary btn-block" onclick="limpiarCampos()">Limpiar</button>
+                        <button type="button" class="btn btn-success btn-block mb-2" onclick="agregarAlumno()">Agregar Alumno</button>
                     </form>
-                    <div class="mt-3" id="result"></div>
                 </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mt-3">
+                    <h4>Alumnos Registrados</h4>
+                    <ul id="listaAlumnos"></ul>
+
+                </div>
+                <button type="button" class="btn btn-secondary btn-block" onclick="limpiarLista()" style="width:90%;">Limpiar Lista</button>
+                
             </div>
         </div>
     </div>
@@ -54,26 +53,26 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        function calcularPromedio() {
-            const cal1 = parseFloat(document.getElementById('calificacion1').value) || 0;
-            const cal2 = parseFloat(document.getElementById('calificacion2').value) || 0;
-            const cal3 = parseFloat(document.getElementById('calificacion3').value) || 0;
+        function agregarAlumno() {
+            const nombre = document.getElementById('nombre').value;
+            const gradoGrupo = document.getElementById('grado_grupo').value;
+            const lista = document.getElementById('listaAlumnos');
 
-            const promedio = (cal1 + cal2 + cal3) / 3;
-            const resultDiv = document.getElementById('result');
-
-            if (promedio >= 8) {
-                resultDiv.innerHTML = <div class="alert alert-success" role="alert">Promedio: ${promedio.toFixed(2)} - Aprobado</div>;
-            } else {
-                resultDiv.innerHTML = <div class="alert alert-danger" role="alert">Promedio: ${promedio.toFixed(2)} - Reprobado</div>;
+            if (nombre && gradoGrupo) {
+                const li = document.createElement('li');
+                li.textContent = `${nombre} - ${gradoGrupo}`;
+                lista.appendChild(li);
+                limpiarCampos();
             }
         }
 
         function limpiarCampos() {
-            document.getElementById('calificacion1').value = '';
-            document.getElementById('calificacion2').value = '';
-            document.getElementById('calificacion3').value = '';
-            document.getElementById('result').innerHTML = '';
+            document.getElementById('nombre').value = '';
+            document.getElementById('grado_grupo').value = '';
+        }
+
+        function limpiarLista() {
+            document.getElementById('listaAlumnos').innerHTML = '';
         }
     </script>
 </body>
